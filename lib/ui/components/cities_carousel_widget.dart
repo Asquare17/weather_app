@@ -28,11 +28,19 @@ class _CityCarouselWidgetState extends ConsumerState<CityCarouselWidget> {
 
   WeatherResponse? response;
   getCityData() async {
-    final WeatherResponse responseN = await locator<DatabaseServices>()
-        .getCurrentWeather(widget.cityModel.lat, widget.cityModel.lng);
-    setState(() {
-      response = responseN;
-    });
+    if (mounted) {
+      final WeatherResponse responseN = await locator<DatabaseServices>()
+          .getCurrentWeather(widget.cityModel.lat, widget.cityModel.lng);
+      setState(() {
+        response = responseN;
+      });
+    }
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
   }
 
   @override

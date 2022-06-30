@@ -71,133 +71,133 @@ class _ConsumerHomeState extends ConsumerState<Home> {
       body: SafeArea(
         child: Container(
           padding: const EdgeInsets.only(top: 20),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Container(
-                padding: const EdgeInsets.symmetric(horizontal: 20),
-                width: size.width,
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    const Icon(
-                      Icons.location_pin,
-                      color: AppColors.primaryColor,
-                    ),
-                    const SizedBox(
-                      width: 4,
-                    ),
-                    DropdownButtonHideUnderline(
-                      child: DropdownButton(
-                          value: selectedCity,
-                          icon: const Icon(Icons.keyboard_arrow_down),
-                          items: citiesProv.allCities.map((CityModel city) {
-                            return DropdownMenuItem(
-                                value: city, child: Text(city.city));
-                          }).toList(),
-                          onChanged: (CityModel? newValue) {
+          child: SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                  width: size.width,
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      const Icon(
+                        Icons.location_pin,
+                        color: AppColors.primaryColor,
+                      ),
+                      const SizedBox(
+                        width: 4,
+                      ),
+                      DropdownButtonHideUnderline(
+                        child: DropdownButton(
+                            value: selectedCity,
+                            icon: const Icon(Icons.keyboard_arrow_down),
+                            items: citiesProv.allCities.map((CityModel city) {
+                              return DropdownMenuItem(
+                                  value: city, child: Text(city.city));
+                            }).toList(),
+                            onChanged: (CityModel? newValue) {
+                              setState(() {
+                                selectedCity = newValue ?? selectedCity;
+                                getCityData();
+                              });
+                            }),
+                      ),
+                      const Spacer(),
+                      InkWell(
+                        onTap: () async {
+                          var position = await getCurrentLocation(context);
+                          if (position != null) {
+                            CityModel currentCity = CityModel(
+                              city: "Current location",
+                              lat: position.latitude.toString(),
+                              lng: position.longitude.toString(),
+                              country: "country",
+                              iso2: "iso2",
+                              adminName: "adminName",
+                              capital: "capital",
+                              population: "population",
+                              populationProper: "populationProper",
+                            );
+                            final citiesProv = ref.read(cityProvider);
+                            citiesProv.addToAllCity(currentCity);
                             setState(() {
-                              selectedCity = newValue ?? selectedCity;
-                              getCityData();
+                              selectedCity = currentCity;
                             });
-                          }),
-                    ),
-                    const Spacer(),
-                    InkWell(
-                      onTap: () async {
-                        var position = await getCurrentLocation(context);
-                        if (position != null) {
-                          CityModel currentCity = CityModel(
-                            city: "Current location",
-                            lat: position.latitude.toString(),
-                            lng: position.longitude.toString(),
-                            country: "country",
-                            iso2: "iso2",
-                            adminName: "adminName",
-                            capital: "capital",
-                            population: "population",
-                            populationProper: "populationProper",
-                          );
-                          final citiesProv = ref.read(cityProvider);
-                          citiesProv.addToAllCity(currentCity);
-                          setState(() {
-                            selectedCity = currentCity;
-                          });
-                          getCityData();
-                        }
-                      },
-                      child: Row(
-                        children: const [
-                          Icon(
-                            Icons.my_location_outlined,
-                          ),
-                          SizedBox(
-                            width: 5,
-                          ),
-                          Text("Current location"),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              const SizedBox(
-                height: 20,
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    const Text(
-                      "Your Favorites",
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 20.0,
-                      ),
-                    ),
-                    InkWell(
-                      onTap: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => const SelectCity()));
-                      },
-                      child: Row(
-                        children: const [
-                          Icon(Icons.add),
-                          Text(
-                            "Add city",
-                            style: TextStyle(
-                              fontWeight: FontWeight.normal,
-                              fontSize: 16,
+                            getCityData();
+                          }
+                        },
+                        child: Row(
+                          children: const [
+                            Icon(
+                              Icons.my_location_outlined,
                             ),
-                          ),
-                        ],
+                            SizedBox(
+                              width: 5,
+                            ),
+                            Text("Current location"),
+                          ],
+                        ),
                       ),
-                    ),
-                  ],
-                ),
-              ),
-              const CitiesCarouselSlider(),
-              const SizedBox(
-                height: 20,
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20),
-                child: Text(
-                  selectedCity?.city ?? "loading",
-                  style: const TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 20.0,
+                    ],
                   ),
                 ),
-              ),
-              const SizedBox(
-                height: 10,
-              ),
-              Expanded(
-                child: Padding(
+                const SizedBox(
+                  height: 20,
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      const Text(
+                        "Your Favorites",
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 20.0,
+                        ),
+                      ),
+                      InkWell(
+                        onTap: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => const SelectCity()));
+                        },
+                        child: Row(
+                          children: const [
+                            Icon(Icons.add),
+                            Text(
+                              "Add city",
+                              style: TextStyle(
+                                fontWeight: FontWeight.normal,
+                                fontSize: 16,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                const CitiesCarouselSlider(),
+                const SizedBox(
+                  height: 20,
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                  child: Text(
+                    selectedCity?.city ?? "loading",
+                    style: const TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 20.0,
+                    ),
+                  ),
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 15),
                   child: Container(
                     padding: const EdgeInsets.all(20),
@@ -218,11 +218,11 @@ class _ConsumerHomeState extends ConsumerState<Home> {
                           ),
                   ),
                 ),
-              ),
-              const SizedBox(
-                height: 10,
-              ),
-            ],
+                const SizedBox(
+                  height: 40,
+                ),
+              ],
+            ),
           ),
         ),
       ),

@@ -66,7 +66,10 @@ class _CitiesCarouselSliderState extends ConsumerState<CitiesCarouselSlider> {
                             visible: cities.length > 3,
                             child: InkWell(
                               onTap: () {
-                                citiesProv.removeCity(item);
+                                setState(() {
+                                  citiesProv.removeCity(item);
+                                });
+                                setState(() {});
                               },
                               child: CircleAvatar(
                                   radius: 15,
