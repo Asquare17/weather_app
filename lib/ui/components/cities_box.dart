@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:weather_app/common/colors.dart';
-import 'package:weather_app/common/textStyles.dart';
+import 'package:weather_app/common/textstyles.dart';
 import 'package:weather_app/helpers/extension.dart';
 import 'package:weather_app/models/city_model.dart';
 import 'package:weather_app/models/weather_model.dart';
@@ -14,16 +14,16 @@ class CitiesBox extends StatelessWidget {
   }) : super(key: key);
   CityModel? city;
   WeatherResponse? response;
+  @override
   Widget build(BuildContext context) {
-    //Create a size variable for the mdeia query
-    Size size = MediaQuery.of(context).size;
     return GestureDetector(
       onTap: () {
-        if (city != null)
+        if (city != null) {
           Navigator.push(
               context,
               MaterialPageRoute(
                   builder: (context) => NextFiveDays(city: city!)));
+        }
       },
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,

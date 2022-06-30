@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:weather_app/common/colors.dart';
 import 'package:weather_app/common/locator.dart';
-import 'package:weather_app/common/textStyles.dart';
+import 'package:weather_app/common/textstyles.dart';
 import 'package:weather_app/helpers/extension.dart';
 import 'package:weather_app/models/city_model.dart';
 import 'package:weather_app/models/weather_model.dart';

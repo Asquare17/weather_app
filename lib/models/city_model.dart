@@ -89,5 +89,6 @@ class CityModel {
       (other.city == city) &&
       (other.lng == lng));
 
+  @override
   int get hashCode => hashValues(lat, lng, city);
 }

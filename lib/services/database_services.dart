@@ -35,8 +35,6 @@ class DatabaseServices {
         'api.openweathermap.org', '/data/2.5/weather', queryParameters);
 
     final response = await http.get(uri);
-
-    print(response.body);
     final json = jsonDecode(response.body);
     return WeatherResponse.fromJson(json);
   }
