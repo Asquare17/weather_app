@@ -23,6 +23,8 @@ class _NextFiveDaysState extends State<NextFiveDays> {
     super.initState();
   }
 
+  List<String> dates = [];
+
   getCityData() async {
     final List<FiveDaysWeatherResponse> responseN =
         await locator<DatabaseServices>()
@@ -30,12 +32,20 @@ class _NextFiveDaysState extends State<NextFiveDays> {
     setState(() {
       response = responseN;
     });
+    for (var item in response!) {
+      dates.isEmpty
+          ? dates.add(DateFormat('EEEE, dd MMM yyyy').format(item.date))
+          : dates.contains(DateFormat('EEEE, dd MMM yyyy').format(item.date))
+              ? dates = dates
+              : dates.add(DateFormat('EEEE, dd MMM yyyy').format(item.date));
+    }
+    dates.sort((a, b) => DateFormat("EEEE, dd MMM yyyy")
+        .parse(a)
+        .compareTo(DateFormat("EEEE, dd MMM yyyy").parse(b)));
   }
 
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
-
     return Scaffold(
       backgroundColor: AppColors.white,
       appBar: AppBar(
@@ -60,14 +70,15 @@ class _NextFiveDaysState extends State<NextFiveDays> {
             ),
             response == null
                 ? const Center(
+                    heightFactor: 6,
                     child: Padding(
-                    padding: EdgeInsets.all(20),
-                    child: CircularProgressIndicator(),
-                  ))
+                      padding: EdgeInsets.all(20),
+                      child: CircularProgressIndicator.adaptive(),
+                    ))
                 : ListView.builder(
                     shrinkWrap: true,
                     physics: const NeverScrollableScrollPhysics(),
-                    itemCount: response!.length,
+                    itemCount: dates.length,
                     itemBuilder: (context, index) {
                       return Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -76,8 +87,9 @@ class _NextFiveDaysState extends State<NextFiveDays> {
                           Padding(
                             padding: const EdgeInsets.symmetric(horizontal: 20),
                             child: Text(
-                              DateFormat('EEE, LLL dd, ')
-                                  .format(response![index].date),
+                              dates[index],
+                              // DateFormat('EEE, LLL dd, hh:mm a')
+                              //     .format(response![index].date),
                               style: const TextStyle(
                                 fontWeight: FontWeight.bold,
                                 fontSize: 16,
@@ -87,23 +99,66 @@ class _NextFiveDaysState extends State<NextFiveDays> {
                           const SizedBox(
                             height: 10,
                           ),
-                          Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 15),
-                            child: Container(
-                              padding: const EdgeInsets.all(20),
-                              width: size.width,
-                              decoration: BoxDecoration(
-                                color: AppColors.primaryColor,
-                                borderRadius: BorderRadius.circular(20),
-                              ),
-                              child: FiveDaysCitiesBox(
-                                response: response![index],
-                                city: widget.city,
-                              ),
-                            ),
+                          SizedBox(
+                            height: 330,
+                            child: ListView.builder(
+                                shrinkWrap: true,
+                                scrollDirection: Axis.horizontal,
+                                physics: const AlwaysScrollableScrollPhysics(),
+                                itemCount: response!.length,
+                                itemBuilder: (context, index2) {
+                                  return DateFormat('EEEE, dd MMM yyyy')
+                                              .format(response![index2].date) !=
+                                          dates[index]
+                                      ? const SizedBox()
+                                      : Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Padding(
+                                              padding:
+                                                  const EdgeInsets.symmetric(
+                                                      horizontal: 20),
+                                              child: Text(
+                                                DateFormat('hh:mm a').format(
+                                                    response![index2].date),
+                                                style: const TextStyle(
+                                                  fontWeight: FontWeight.normal,
+                                                  fontSize: 16,
+                                                ),
+                                              ),
+                                            ),
+                                            const SizedBox(
+                                              height: 10,
+                                            ),
+                                            Expanded(
+                                              child: Padding(
+                                                padding:
+                                                    const EdgeInsets.symmetric(
+                                                        horizontal: 15),
+                                                child: Container(
+                                                  padding:
+                                                      const EdgeInsets.all(20),
+                                                  decoration: BoxDecoration(
+                                                    color:
+                                                        AppColors.primaryColor,
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            20),
+                                                  ),
+                                                  child: FiveDaysCitiesBox(
+                                                    response: response![index2],
+                                                    city: widget.city,
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                          ],
+                                        );
+                                }),
                           ),
                           const SizedBox(
-                            height: 10,
+                            height: 30,
                           ),
                         ],
                       );
@@ -111,22 +166,6 @@ class _NextFiveDaysState extends State<NextFiveDays> {
           ],
         ),
       ),
-    );
-  }
-}
-
-class WeatherListTile extends StatelessWidget {
-  const WeatherListTile({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      children: [
-        const Text("Mon 11/23"),
-        Image.network(""),
-        const Text("Rainy"),
-        const Text("11/23")
-      ],
     );
   }
 }

@@ -11,7 +11,7 @@ class DatabaseServices {
       'lat': lat,
       "lon": lng,
       'appid': appId,
-      'units': 'standard'
+      'units': 'metric'
     };
 
     final uri = Uri.https(
@@ -28,7 +28,7 @@ class DatabaseServices {
       'lat': lat,
       "lon": lng,
       'appid': appId,
-      'units': 'standard'
+      'units': 'metric'
     };
 
     final uri = Uri.https(

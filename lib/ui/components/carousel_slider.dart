@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:weather_app/models/city_model.dart';
 import 'package:weather_app/providers/city_provider.dart';
 import 'package:weather_app/ui/components/cities_carousel_widget.dart';
+import 'package:weather_app/ui/screens/next_five/next_five_days_screen.dart';
 
 class CitiesCarouselSlider extends ConsumerStatefulWidget {
   const CitiesCarouselSlider({
@@ -43,8 +44,14 @@ class _CitiesCarouselSliderState extends ConsumerState<CitiesCarouselSlider> {
                       alignment: Alignment.center,
                       clipBehavior: Clip.none,
                       children: [
-                        GestureDetector(
-                          onTap: () {},
+                        InkWell(
+                          onTap: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        NextFiveDays(city: item)));
+                          },
                           child: Padding(
                             padding: const EdgeInsets.only(top: 20),
                             child: CityCarouselWidget(
@@ -57,7 +64,7 @@ class _CitiesCarouselSliderState extends ConsumerState<CitiesCarouselSlider> {
                           right: 0,
                           child: Visibility(
                             visible: cities.length > 3,
-                            child: GestureDetector(
+                            child: InkWell(
                               onTap: () {
                                 citiesProv.removeCity(item);
                               },
@@ -93,10 +100,10 @@ class _CitiesCarouselSliderState extends ConsumerState<CitiesCarouselSlider> {
           const SizedBox(
             height: 10,
           ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
+          Wrap(
+            direction: Axis.horizontal,
             children: cities.asMap().entries.map((entry) {
-              return GestureDetector(
+              return InkWell(
                 onTap: () => _controller.animateToPage(entry.key),
                 child: Container(
                   width: 8.0,

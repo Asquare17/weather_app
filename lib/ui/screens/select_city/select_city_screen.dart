@@ -36,45 +36,35 @@ class _ConsumerSelectCityState extends ConsumerState<SelectCity> {
                   height: size.height * .08,
                   width: size.width,
                   decoration: BoxDecoration(
-                      border: citiesProv.allCities[index] == selectedCity
-                          ? Border.all(
-                              color: AppColors.secondaryColor.withOpacity(.6),
-                              width: 2,
-                            )
-                          : Border.all(color: Colors.white),
-                      borderRadius: const BorderRadius.all(Radius.circular(10)),
-                      boxShadow: [
-                        BoxShadow(
-                          color: AppColors.primaryColor.withOpacity(.2),
-                          spreadRadius: 5,
-                          blurRadius: 7,
-                          offset: const Offset(0, 3),
-                        )
-                      ]),
-                  child: Row(
-                    children: [
-                      GestureDetector(
-                          onTap: () {
-                            setState(() {
-                              selectedCity = citiesProv.allCities[index];
-                            });
-                          },
-                          child: citiesProv.allCities[index] == selectedCity
-                              ? const Icon(Icons.check_box_outlined)
-                              : const Icon(Icons.check_box_outline_blank)),
-                      const SizedBox(
-                        width: 10,
-                      ),
-                      Text(
-                        citiesProv.allCities[index].city,
-                        style: TextStyle(
-                          fontSize: 16,
-                          color: citiesProv.allCities[index] == selectedCity
-                              ? AppColors.primaryColor
-                              : Colors.black54,
+                    border: citiesProv.allCities[index] == selectedCity
+                        ? Border.all(
+                            color: AppColors.secondaryColor.withOpacity(.6),
+                            width: 2,
+                          )
+                        : Border.all(color: AppColors.white),
+                    borderRadius: const BorderRadius.all(Radius.circular(10)),
+                  ),
+                  child: InkWell(
+                    onTap: () {
+                      setState(() {
+                        selectedCity = citiesProv.allCities[index];
+                      });
+                    },
+                    child: Row(
+                      children: [
+                        Text(
+                          citiesProv.allCities[index].city,
+                          style: TextStyle(
+                            fontSize: 16,
+                            color: Colors.black,
+                          ),
                         ),
-                      )
-                    ],
+                        Spacer(),
+                        citiesProv.allCities[index] == selectedCity
+                            ? const Icon(Icons.check_box_outlined)
+                            : const Icon(Icons.check_box_outline_blank),
+                      ],
+                    ),
                   ),
                 );
         },

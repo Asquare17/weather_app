@@ -103,7 +103,7 @@ class _ConsumerHomeState extends ConsumerState<Home> {
                           }),
                     ),
                     const Spacer(),
-                    GestureDetector(
+                    InkWell(
                       onTap: () async {
                         var position = await getCurrentLocation(context);
                         if (position != null) {
@@ -156,7 +156,7 @@ class _ConsumerHomeState extends ConsumerState<Home> {
                         fontSize: 20.0,
                       ),
                     ),
-                    GestureDetector(
+                    InkWell(
                       onTap: () {
                         Navigator.push(
                             context,
@@ -207,7 +207,9 @@ class _ConsumerHomeState extends ConsumerState<Home> {
                       borderRadius: BorderRadius.circular(20),
                     ),
                     child: response == null
-                        ? const CircularProgressIndicator()
+                        ? Center(
+                            child: const CircularProgressIndicator.adaptive(),
+                          )
                         : SingleChildScrollView(
                             child: CitiesBox(
                               response: response,

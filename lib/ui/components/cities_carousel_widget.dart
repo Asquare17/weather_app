@@ -39,24 +39,26 @@ class _CityCarouselWidgetState extends ConsumerState<CityCarouselWidget> {
   Widget build(BuildContext context) {
     //Create a size variable for the mdeia query
     Size size = MediaQuery.of(context).size;
-    return response == null
-        ? const CircularProgressIndicator()
-        : Container(
-            padding: const EdgeInsets.all(20),
-            width: size.width,
-            decoration: BoxDecoration(
-              color: AppColors.primaryColor,
-              borderRadius: BorderRadius.circular(20),
-              // boxShadow: [
-              //   BoxShadow(
-              //     color: AppColors.primaryColor.withOpacity(.5),
-              //     offset: const Offset(0, 25),
-              //     blurRadius: 10,
-              //     spreadRadius: -12,
-              //   )
-              // ],
-            ),
-            child: Column(
+    return Container(
+      padding: const EdgeInsets.all(20),
+      width: size.width,
+      decoration: BoxDecoration(
+        color: AppColors.primaryColor,
+        borderRadius: BorderRadius.circular(20),
+        // boxShadow: [
+        //   BoxShadow(
+        //     color: AppColors.primaryColor.withOpacity(.5),
+        //     offset: const Offset(0, 25),
+        //     blurRadius: 10,
+        //     spreadRadius: -12,
+        //   )
+        // ],
+      ),
+      child: response == null
+          ? Center(
+              child: const CircularProgressIndicator.adaptive(),
+            )
+          : Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Row(
@@ -162,48 +164,48 @@ class _CityCarouselWidgetState extends ConsumerState<CityCarouselWidget> {
                     children: [
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
-                        children: const [
-                          Text(
+                        children: [
+                          const Text(
                             "Wind",
                             style: AppTextStyle.grey12,
                           ),
-                          SizedBox(
+                          const SizedBox(
                             height: 6,
                           ),
                           Text(
-                            "8Km/hr",
+                            (response!.windSpeed) + "m/s",
                             style: AppTextStyle.black14w7,
                           ),
                         ],
                       ),
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
-                        children: const [
-                          Text(
+                        children: [
+                          const Text(
                             "Humidity",
                             style: AppTextStyle.grey12,
                           ),
-                          SizedBox(
+                          const SizedBox(
                             height: 6,
                           ),
                           Text(
-                            "27%",
+                            (response!.tempInfo.humidity) + "%",
                             style: AppTextStyle.black14w7,
                           ),
                         ],
                       ),
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
-                        children: const [
-                          Text(
+                        children: [
+                          const Text(
                             "Visibility",
                             style: AppTextStyle.grey12,
                           ),
-                          SizedBox(
+                          const SizedBox(
                             height: 6,
                           ),
                           Text(
-                            "1.8km",
+                            (response!.visibility) + "km",
                             style: AppTextStyle.black14w7,
                           ),
                         ],
@@ -213,6 +215,6 @@ class _CityCarouselWidgetState extends ConsumerState<CityCarouselWidget> {
                 ),
               ],
             ),
-          );
+    );
   }
 }

@@ -16,7 +16,7 @@ class CitiesBox extends StatelessWidget {
   WeatherResponse? response;
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
+    return InkWell(
       onTap: () {
         if (city != null) {
           Navigator.push(
@@ -125,48 +125,48 @@ class CitiesBox extends StatelessWidget {
               children: [
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
-                  children: const [
-                    Text(
+                  children: [
+                    const Text(
                       "Wind",
                       style: AppTextStyle.grey12,
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 10,
                     ),
                     Text(
-                      "8Km/hr",
+                      (response!.windSpeed) + "m/s",
                       style: AppTextStyle.black14w7,
                     ),
                   ],
                 ),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
-                  children: const [
-                    Text(
+                  children: [
+                    const Text(
                       "Humidity",
                       style: AppTextStyle.grey12,
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 10,
                     ),
                     Text(
-                      "27%",
+                      (response!.tempInfo.humidity) + "%",
                       style: AppTextStyle.black14w7,
                     ),
                   ],
                 ),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
-                  children: const [
-                    Text(
+                  children: [
+                    const Text(
                       "Visibility",
                       style: AppTextStyle.grey12,
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 10,
                     ),
                     Text(
-                      "1.8km",
+                      (response!.visibility) + "km",
                       style: AppTextStyle.black14w7,
                     ),
                   ],

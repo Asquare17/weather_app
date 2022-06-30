@@ -60,9 +60,11 @@ class WeatherResponse {
 
   factory WeatherResponse.fromJson(Map<String, dynamic> json) {
     final cityName = json['name'];
-    final windSpeed = json['wind']["speed"].toString();
+    final windSpeed = double.tryParse((json['wind']["speed"]).toString())
+            ?.toStringAsFixed(1) ??
+        "";
     final tempInfoJson = json['main'];
-    final visibility = json["visibility"].toString();
+    final visibility = (json["visibility"] / 1000).round().toString();
 
     final tempInfo = TemperatureInfo.fromJson(tempInfoJson);
 
@@ -101,7 +103,7 @@ class FiveDaysWeatherResponse {
     final date = DateTime.fromMillisecondsSinceEpoch(json['dt'] * 1000);
     final windSpeed = json['wind']["speed"].toString();
     final tempInfoJson = json['main'];
-    final visibility = json["visibility"].toString();
+    final visibility = (json["visibility"] / 1000).round().toString();
     final tempInfo = TemperatureInfo.fromJson(tempInfoJson);
 
     final weatherInfoJson = json['weather'][0];
